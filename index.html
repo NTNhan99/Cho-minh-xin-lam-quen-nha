@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>xin chào... :)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #FFF8EF;
+    --peach: #FFC79A;
+    --peach-deep: #FF9E5E;
+    --sage: #B8D9A0;
+    --sage-deep: #7DAF63;
+    --plum: #5B4763;
+    --ink: #3D3340;
+    --blush: #F4A9B7;
+    --sun: #FBD067;
+    --lilac: #C9A9DB;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    height:100%;
+    font-family:'Nunito', 'Segoe UI', sans-serif;
+  }
+
+  body{
+    background: linear-gradient(160deg, var(--cream) 0%, #FDF0E6 45%, var(--cream) 100%);
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* floating blobs ambient bg */
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter: blur(1px);
+    opacity:0.65;
+    animation: float 9s ease-in-out infinite;
+  }
+  .blob1{ width:180px; height:180px; background:var(--peach); top:8%; left:6%; animation-delay:0s; }
+  .blob2{ width:120px; height:120px; background:var(--sage); bottom:12%; right:8%; animation-delay:2s; }
+  .blob3{ width:90px; height:90px; background:var(--blush); top:65%; left:10%; animation-delay:4s; }
+  .blob4{ width:140px; height:140px; background:var(--sun); top:12%; right:10%; animation-delay:1.5s; }
+  .blob5{ width:70px; height:70px; background:var(--lilac); bottom:28%; left:4%; animation-delay:3s; opacity:0.5; }
+
+  @keyframes float{
+    0%,100%{ transform:translateY(0) translateX(0) scale(1); }
+    50%{ transform:translateY(-22px) translateX(10px) scale(1.05); }
+  }
+
+  .stage{
+    position:relative;
+    width:min(92vw, 460px);
+    height:min(88vh, 680px);
+    background:
+      radial-gradient(circle at 8px 8px, rgba(255,158,94,0.10) 2px, transparent 2.5px) 0 0/28px 28px,
+      linear-gradient(165deg, #FFFDFA 0%, #FFF3E8 55%, #FFEFE3 100%);
+    border-radius:32px;
+    border: 3px solid #FFE9D6;
+    box-shadow: 0 20px 60px rgba(107,91,115,0.22), 0 2px 8px rgba(107,91,115,0.10), inset 0 0 0 1px rgba(255,255,255,0.6);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .scene{
+    position:absolute;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 32px;
+    opacity:0;
+  }
+
+  .scene.active{
+    display:flex;
+    animation: sceneIn 0.7s cubic-bezier(.22,1,.36,1) forwards;
+  }
+
+  .scene.leaving{
+    animation: sceneOut 0.45s ease forwards;
+  }
+
+  @keyframes sceneIn{
+    0%{ opacity:0; transform: translateY(18px) scale(0.98); }
+    100%{ opacity:1; transform: translateY(0) scale(1); }
+  }
+  @keyframes sceneOut{
+    0%{ opacity:1; transform: translateY(0) scale(1); }
+    100%{ opacity:0; transform: translateY(-14px) scale(0.97); }
+  }
+
+  .progress{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:8px;
+    z-index:10;
+  }
+  .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: #EEE3DA;
+    transition: all 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .dot.on{ background: var(--peach-deep); width:24px; border-radius:5px; box-shadow: 0 2px 6px rgba(255,142,74,0.4); }
+  .dot.done{ background: var(--sage-deep); }
+
+  .emoji-big{
+    font-size:64px;
+    margin-bottom:18px;
+    display:inline-block;
+    animation: wobble 3s ease-in-out infinite;
+  }
+  @keyframes wobble{
+    0%,100%{ transform: rotate(-4deg); }
+    50%{ transform: rotate(4deg); }
+  }
+
+  h1{
+    font-family:'Baloo 2', 'Nunito', sans-serif;
+    font-size:27px;
+    color:var(--ink);
+    font-weight:700;
+    line-height:1.35;
+    letter-spacing:-0.2px;
+    margin-bottom:10px;
+  }
+
+  p.sub{
+    font-size:15.5px;
+    color:#9A8990;
+    line-height:1.65;
+    margin-bottom:28px;
+    max-width:310px;
+    font-weight:600;
+  }
+
+  .corner-deco{
+    position:absolute;
+    font-size:22px;
+    opacity:0.4;
+    pointer-events:none;
+    animation: sway 5s ease-in-out infinite;
+    z-index:1;
+    transition: opacity 0.4s ease;
+  }
+  .corner-deco.tl{ top:18px; left:18px; animation-delay:0s; }
+  .corner-deco.br{ bottom:18px; right:18px; animation-delay:1.8s; }
+  @keyframes sway{
+    0%,100%{ transform: rotate(-8deg) translateY(0); }
+    50%{ transform: rotate(8deg) translateY(-4px); }
+  }
+
+  .sparkle-layer{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    overflow:hidden;
+  }
+  .sparkle{
+    position:absolute;
+    font-size:11px;
+    color:var(--sun);
+    animation: sparkle-pop 2.6s ease-in-out infinite;
+  }
+  @keyframes sparkle-pop{
+    0%,100%{ opacity:0; transform: scale(0.5) rotate(0deg); }
+    50%{ opacity:0.8; transform: scale(1.1) rotate(20deg); }
+  }
+
+  .btn{
+    position:relative;
+    background: linear-gradient(135deg, var(--peach-deep), #FF8A4A);
+    color: #fff;
+    border:none;
+    padding:14px 34px;
+    border-radius:999px;
+    font-size:16px;
+    font-weight:700;
+    font-family:'Baloo 2', 'Nunito', sans-serif;
+    letter-spacing:0.2px;
+    cursor:pointer;
+    box-shadow: 0 8px 20px rgba(255,142,74,0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow:hidden;
+  }
+  .btn::after{
+    content:'';
+    position:absolute;
+    top:0; left:-60%;
+    width:40%; height:100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.55s ease;
+  }
+  .btn:hover::after{ left:130%; }
+  .btn:hover{ transform: translateY(-3px); box-shadow: 0 12px 26px rgba(255,142,74,0.6); }
+  .btn:active{ transform: translateY(0px) scale(0.97); }
+
+  .btn.secondary{
+    background: transparent;
+    color: var(--plum);
+    box-shadow:none;
+    border: 2px solid #EEE3DA;
+    margin-top:12px;
+  }
+  .btn.secondary:hover{ border-color: var(--peach-deep); box-shadow:none; }
+
+  .btn-row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+
+  /* Scene 1: intro */
+  .stars{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+  }
+  .star{
+    position:absolute;
+    font-size:14px;
+    opacity:0.7;
+    animation: twinkle 2.4s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{ opacity:0.3; transform:scale(0.9); }
+    50%{ opacity:0.9; transform:scale(1.15); }
+  }
+
+  /* Scene 2: choice buttons layout */
+  .choice-card{
+    background: linear-gradient(160deg, #FFFFFF, var(--cream));
+    border:2px solid #FFE4CE;
+    border-radius:20px;
+    padding:24px;
+    width:100%;
+    max-width:320px;
+    box-shadow: 0 10px 24px rgba(255,158,94,0.12);
+  }
+
+  .name-badge{
+    display:inline-block;
+    background: var(--sage);
+    color: #2F4A2A;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    padding:6px 18px;
+    border-radius:999px;
+    font-size:13.5px;
+    margin-bottom:16px;
+    letter-spacing:0.4px;
+  }
+
+  /* Scene 3: mini interactive - heart fill */
+  .heart-wrap{
+    position:relative;
+    width:120px; height:120px;
+    margin-bottom:20px;
+    cursor:pointer;
+  }
+  .heart-wrap svg{ width:100%; height:100%; }
+  .heart-fill{
+    transition: transform 0.15s ease;
+    transform-origin:center;
+  }
+  .heart-wrap:active .heart-fill{ transform: scale(0.85); }
+
+  .tap-hint{
+    font-size:13.5px;
+    font-style:italic;
+    font-weight:600;
+    color:#B8A9AE;
+    margin-top: -10px;
+    margin-bottom:24px;
+  }
+
+  /* Final scene */
+  .final-glow{
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle at 50% 30%, rgba(255,220,194,0.6), transparent 60%);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes pulse-glow{
+    0%,100%{ opacity:0.5; }
+    50%{ opacity:1; }
+  }
+
+  .final-title{
+    font-family:'Baloo 2', sans-serif;
+    font-size:25px;
+    font-weight:700;
+    color:var(--ink);
+    line-height:1.5;
+    letter-spacing:-0.2px;
+    margin-bottom:8px;
+    z-index:2;
+  }
+
+  .final-title .accent{
+    color: var(--peach-deep);
+  }
+
+  .confetti{
+    position:absolute;
+    top:-10px;
+    border-radius:2px;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(720px) rotate(400deg); opacity:0; }
+  }
+
+  .response-box{
+    z-index:3;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+    margin-top:10px;
+    min-height:120px;
+    width:100%;
+  }
+
+  #dodgeBtn{
+    position:relative;
+    transition: left 0.28s cubic-bezier(.34,1.56,.64,1), top 0.28s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  #dodgeBtn.escaping{
+    position:absolute;
+  }
+
+  .dodge-hint{
+    font-size:12px;
+    color:#CBBFC2;
+    margin-top:2px;
+    min-height:16px;
+  }
+
+  .thanks{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    z-index:3;
+  }
+  .thanks.show{ display:flex; animation: sceneIn 0.5s ease forwards; }
+
+  footer.made{
+    position:absolute;
+    bottom:14px;
+    left:0; right:0;
+    text-align:center;
+    font-size:11px;
+    color:#CBBFC2;
+    z-index:2;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  }
+
+  @media (max-width:380px){
+    h1{ font-size:23px; }
+    .final-title{ font-size:22px; }
+    .emoji-big{ font-size:52px; }
+    p.sub{ font-size:14.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div class="blob blob4"></div>
+<div class="blob blob5"></div>
+
+<div class="stage">
+
+  <div class="progress" id="progress"></div>
+  <div class="sparkle-layer" id="sparkleLayer"></div>
+  <span class="corner-deco tl" id="decoTL">🌸</span>
+  <span class="corner-deco br" id="decoBR">✨</span>
+
+  <!-- SCENE 0: Intro -->
+  <section class="scene active" data-scene="0">
+    <div class="stars" id="stars"></div>
+    <div class="emoji-big">👋</div>
+    <h1>Ơ, là bạn đây à?</h1>
+    <p class="sub">Mình vừa kết bạn xong, và mình nghĩ một tin nhắn bình thường thì... hơi nhạt. Nên mình làm cái này thay vào đó.</p>
+    <button class="btn" onclick="goTo(1)">Xem tiếp nè →</button>
+  </section>
+
+  <!-- SCENE 1: playful context -->
+  <section class="scene" data-scene="1">
+    <div class="choice-card">
+      <span class="name-badge">một sự thật nhỏ</span>
+      <h1 style="font-size:20px;">Từ lúc thấy bạn xuất hiện trên news feed, não mình cứ load mãi một câu hỏi...</h1>
+      <p class="sub" style="margin-bottom:8px;">"Làm sao để bắt chuyện mà không bị... kỳ?"</p>
+    </div>
+    <div class="btn-row" style="margin-top:22px;">
+      <button class="btn" onclick="goTo(2)">Rồi bạn tính sao? 😄</button>
+    </div>
+  </section>
+
+  <!-- SCENE 2: mini interactive heart -->
+  <section class="scene" data-scene="2">
+    <div class="heart-wrap" id="heartWrap" onclick="tapHeart()">
+      <svg viewBox="0 0 100 100">
+        <path id="heartOutline" d="M50 88 C20 65, 5 45, 5 28 C5 12, 20 4, 35 12 C42 16, 47 22, 50 28 C53 22, 58 16, 65 12 C80 4, 95 12, 95 28 C95 45, 80 65, 50 88 Z"
+          fill="#F3E9E0" stroke="#EEDFD3" stroke-width="1"/>
+        <clipPath id="clip">
+          <path d="M50 88 C20 65, 5 45, 5 28 C5 12, 20 4, 35 12 C42 16, 47 22, 50 28 C53 22, 58 16, 65 12 C80 4, 95 12, 95 28 C95 45, 80 65, 50 88 Z"/>
+        </clipPath>
+        <rect id="heartFillRect" class="heart-fill" x="0" y="100" width="100" height="100" fill="#FF9EAE" clip-path="url(#clip)"/>
+      </svg>
+    </div>
+    <p class="tap-hint" id="tapHint">chạm nhẹ vào tim vài lần xem sao 👆</p>
+    <h1 style="font-size:19px;" id="heartTitle">đang... "làm quen" từ từ</h1>
+    <button class="btn" id="heartNextBtn" style="opacity:0.35; pointer-events:none;" onclick="goTo(3)">Đủ can đảm rồi →</button>
+  </section>
+
+  <!-- SCENE 3: FINAL -->
+  <section class="scene" data-scene="3">
+    <div class="final-glow"></div>
+    <div id="confettiHolder"></div>
+
+    <div id="askBlock">
+      <div class="emoji-big">🌷</div>
+      <p class="final-title">Vậy nên...<br><span class="accent">mình làm quen với bạn được không?</span></p>
+      <p class="sub">Không cần trả lời gì to tát đâu, chỉ cần một cái gật đầu nhỏ thôi 🙂</p>
+      <div class="response-box" id="responseBox">
+        <button class="btn" onclick="respond(true)">Được chứ 🌸</button>
+        <button class="btn secondary" id="dodgeBtn">Cho mình suy nghĩ thêm</button>
+        <p class="dodge-hint" id="dodgeHint">&nbsp;</p>
+      </div>
+    </div>
+
+    <div class="thanks" id="thanksYes">
+      <div class="emoji-big">🎉</div>
+      <h1>Yayyy!</h1>
+      <p class="sub">Vậy là chính thức quen nhau rồi nha 💌</p>
+    </div>
+
+    <footer class="made">made with a little bit of nervousness ✨</footer>
+  </section>
+
+</div>
+
+<script>
+  const totalScenes = 4;
+  let current = 0;
+  let heartTaps = 0;
+
+  // sparkle layer - ambient twinkles across the whole stage
+  const sparkleLayer = document.getElementById('sparkleLayer');
+  const sparkleChars = ['✦','✧','⋆','·'];
+  const sparkleColors = ['#FBD067','#F4A9B7','#C9A9DB','#7DAF63'];
+  for(let i=0;i<14;i++){
+    const sp = document.createElement('span');
+    sp.className = 'sparkle';
+    sp.textContent = sparkleChars[Math.floor(Math.random()*sparkleChars.length)];
+    sp.style.left = Math.random()*94+'%';
+    sp.style.top = Math.random()*94+'%';
+    sp.style.color = sparkleColors[Math.floor(Math.random()*sparkleColors.length)];
+    sp.style.animationDelay = (Math.random()*2.6)+'s';
+    sp.style.animationDuration = (2+Math.random()*1.6)+'s';
+    sparkleLayer.appendChild(sp);
+  }
+
+  // corner deco changes per scene for a bit of narrative texture
+  const decoTL = document.getElementById('decoTL');
+  const decoBR = document.getElementById('decoBR');
+  const decoBySceneTL = ['👋','💭','💗','🌷'];
+  const decoBySceneBR = ['✨','😄','✨','🎊'];
+
+  function updateDeco(idx){
+    decoTL.style.opacity = '0';
+    decoBR.style.opacity = '0';
+    setTimeout(()=>{
+      decoTL.textContent = decoBySceneTL[idx];
+      decoBR.textContent = decoBySceneBR[idx];
+      decoTL.style.opacity = '0.4';
+      decoBR.style.opacity = '0.4';
+    }, 200);
+  }
+  updateDeco(0);
+
+  // build progress dots
+  const progressEl = document.getElementById('progress');
+  for(let i=0;i<totalScenes;i++){
+    const d = document.createElement('div');
+    d.className = 'dot';
+    progressEl.appendChild(d);
+  }
+  updateDots();
+
+  function updateDots(){
+    const dots = progressEl.children;
+    for(let i=0;i<dots.length;i++){
+      dots[i].classList.remove('on','done');
+      if(i < current) dots[i].classList.add('done');
+      if(i === current) dots[i].classList.add('on');
+    }
+  }
+
+  function goTo(idx){
+    const scenes = document.querySelectorAll('.scene');
+    const currentScene = document.querySelector('.scene.active');
+    const nextScene = document.querySelector(`.scene[data-scene="${idx}"]`);
+
+    currentScene.classList.remove('active');
+    currentScene.classList.add('leaving');
+
+    setTimeout(()=>{
+      currentScene.classList.remove('leaving');
+      nextScene.classList.add('active');
+      current = idx;
+      updateDots();
+      updateDeco(idx);
+      if(idx === 3) launchConfetti();
+    }, 420);
+  }
+
+  // scattered stars for scene 0
+  const starsWrap = document.getElementById('stars');
+  const starEmojis = ['✦','✧','⋆'];
+  for(let i=0;i<10;i++){
+    const s = document.createElement('span');
+    s.className='star';
+    s.textContent = starEmojis[Math.floor(Math.random()*starEmojis.length)];
+    s.style.left = Math.random()*90+'%';
+    s.style.top = Math.random()*90+'%';
+    s.style.animationDelay = (Math.random()*2)+'s';
+    s.style.color = ['#FFB98A','#A9C79A','#F6C9CE'][Math.floor(Math.random()*3)];
+    starsWrap.appendChild(s);
+  }
+
+  // heart tap interaction
+  function tapHeart(){
+    heartTaps = Math.min(heartTaps+1, 5);
+    const rect = document.getElementById('heartFillRect');
+    const pct = heartTaps/5;
+    const y = 100 - pct*100;
+    rect.setAttribute('y', y);
+
+    const titleEl = document.getElementById('heartTitle');
+    const hintEl = document.getElementById('tapHint');
+    const messages = [
+      'đang... "làm quen" từ từ',
+      'nè, tim đang ấm lên rồi đó',
+      'hmm bắt đầu có cảm tình rồi nè',
+      'gần đầy rồi, ráng chút nữa!',
+      'xong! ✨'
+    ];
+    titleEl.textContent = messages[heartTaps-1] || messages[0];
+
+    if(heartTaps >= 5){
+      hintEl.textContent = 'giờ thì bấm nút bên dưới nha';
+      const btn = document.getElementById('heartNextBtn');
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    }
+  }
+
+  function respond(isYes){
+    document.getElementById('askBlock').style.display = 'none';
+    document.getElementById('thanksYes').classList.add('show');
+    launchConfetti();
+  }
+
+  // dodge logic for the "suy nghĩ thêm" button
+  const dodgeBtn = document.getElementById('dodgeBtn');
+  const responseBox = document.getElementById('responseBox');
+  const dodgeHint = document.getElementById('dodgeHint');
+  const dodgeMessages = [
+    'ơ, hụt rồi 😄',
+    'nút này hơi nhát á',
+    'thử nút bên trên kìa 👆',
+    'nó né giỏi thiệt sự',
+    'thôi kệ nó đi 🙈'
+  ];
+  let dodgeCount = 0;
+
+  function dodgeAway(){
+    dodgeCount++;
+    const boxRect = responseBox.getBoundingClientRect();
+    const btnRect = dodgeBtn.getBoundingClientRect();
+
+    const maxLeft = Math.max(boxRect.width - btnRect.width, 0);
+    const maxTop = Math.max(boxRect.height - btnRect.height, 0);
+
+    const newLeft = Math.random() * maxLeft;
+    const newTop = Math.random() * maxTop;
+
+    dodgeBtn.classList.add('escaping');
+    dodgeBtn.style.left = newLeft + 'px';
+    dodgeBtn.style.top = newTop + 'px';
+
+    dodgeHint.textContent = dodgeMessages[Math.min(dodgeCount-1, dodgeMessages.length-1)];
+  }
+
+  dodgeBtn.addEventListener('mouseenter', dodgeAway);
+  dodgeBtn.addEventListener('touchstart', function(e){
+    e.preventDefault();
+    dodgeAway();
+  }, {passive:false});
+  dodgeBtn.addEventListener('click', function(e){
+    // if somehow clicked (rare on fast clicks), just dodge again instead of doing anything
+    e.preventDefault();
+    dodgeAway();
+  });
+
+  function launchConfetti(){
+    const holder = document.getElementById('confettiHolder');
+    const colors = ['#FFB98A','#A9C79A','#F6C9CE','#FCE3A0'];
+    for(let i=0;i<26;i++){
+      const c = document.createElement('div');
+      c.className='confetti';
+      c.style.left = Math.random()*100+'%';
+      c.style.width = (5+Math.random()*5)+'px';
+      c.style.height = (8+Math.random()*8)+'px';
+      c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration = (2+Math.random()*1.5)+'s';
+      c.style.animationDelay = (Math.random()*0.6)+'s';
+      holder.appendChild(c);
+      setTimeout(()=>c.remove(), 4000);
+    }
+  }
+</script>
+
+</body>
+</html>
